@@ -1,0 +1,106 @@
+﻿@model WebApplicationInired.Models.Marker
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>CREAR</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>
+            NUEVO MARKER<input type="image" src="~/Images/markerorjo.jpg" id="imagenMarker" style="width: 30px;
+    margin-left: 10px;
+    margin-bottom: -15px;
+    margin-top: 20px;" />
+        </h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <p class="control-label col-md-2">NOMBRE</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.lat, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <p class="control-label col-md-2">LATITUD</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.lat, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.lat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.lon, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <p class="control-label col-md-2">LONGITUD</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.lon, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.lon, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.ubicacion, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <p class="control-label col-md-2">UBICACIÓN</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ubicacion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ubicacion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <p class="control-label col-md-2">DESCRIPCIÓN</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.nota, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <p class="control-label col-md-2">NOTA</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nota, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nota, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.comentarios_marker, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <p class="control-label col-md-2">COMENTARIO</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.comentarios_marker, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.comentarios_marker, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.fotos_marker, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.fotos_marker, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.fotos_marker, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="CREAR" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Volver al inicio", "Principal")
+</div>
+
+

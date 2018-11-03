@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WebApplicationInired.Models.Coments>
+
+@{
+    ViewBag.Title = "Index";
+}
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<h2 style="color:#fff">COMENTARIOS</h2>
+<style>
+            #card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+    padding: 2px 16px;
+    }
+</style>
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+
+@foreach (var i in Model)
+{
+    <div class="card" style="background-color:#c74a4a">
+        <div class="container" style="margin-bottom:10px">
+            <h4 style="color:#fff"><b>@Html.DisplayFor(modelItem => i.nombreMarker)</b></h4>
+            <p style="color:#fff">@Html.DisplayFor(modelItem => i.comentario)</p>
+            <p style="color:#fff">Usuario: @Html.DisplayFor(modelItem => i.id_user)</p>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Volver", "Principal","Markers")
+</div>
+

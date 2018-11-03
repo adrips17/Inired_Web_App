@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IniredAdrianModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Comentarios">
+    <Key>
+      <PropertyRef Name="comentario" />
+    </Key>
+    <Property Name="comentario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="id_user" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="id_marker" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Marker" Relationship="Self.FK_Comentarios_Marker" FromRole="Comentarios" ToRole="Marker" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK_Comentarios_Usuario" FromRole="Comentarios" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="Fotos_Marker">
+    <Key>
+      <PropertyRef Name="imagen" />
+    </Key>
+    <Property Name="imagen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="id_marker" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Marker" Relationship="Self.FK_Fotos_Marker_Marker" FromRole="Fotos_Marker" ToRole="Marker" />
+  </EntityType>
+  <EntityType Name="Marker">
+    <Key>
+      <PropertyRef Name="id_marker" />
+    </Key>
+    <Property Name="id_marker" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lat" Type="Double" />
+    <Property Name="lon" Type="Double" />
+    <Property Name="ubicacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="nota" Type="Double" />
+    <Property Name="comentarios_marker" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fotos_marker" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Comentarios" Relationship="Self.FK_Comentarios_Marker" FromRole="Marker" ToRole="Comentarios" />
+    <NavigationProperty Name="Fotos_Marker1" Relationship="Self.FK_Fotos_Marker_Marker" FromRole="Marker" ToRole="Fotos_Marker" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="usuario1" />
+    </Key>
+    <Property Name="usuario1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fecha_nacimiento" Type="DateTime" Precision="3" />
+    <Property Name="sexo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="foto_usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Comentarios" Relationship="Self.FK_Comentarios_Usuario" FromRole="Usuario" ToRole="Comentarios" />
+  </EntityType>
+  <Association Name="FK_Comentarios_Marker">
+    <End Role="Marker" Type="Self.Marker" Multiplicity="1" />
+    <End Role="Comentarios" Type="Self.Comentarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marker">
+        <PropertyRef Name="id_marker" />
+      </Principal>
+      <Dependent Role="Comentarios">
+        <PropertyRef Name="id_marker" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comentarios_Usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Comentarios" Type="Self.Comentarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="usuario1" />
+      </Principal>
+      <Dependent Role="Comentarios">
+        <PropertyRef Name="id_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Fotos_Marker_Marker">
+    <End Role="Marker" Type="Self.Marker" Multiplicity="1" />
+    <End Role="Fotos_Marker" Type="Self.Fotos_Marker" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marker">
+        <PropertyRef Name="id_marker" />
+      </Principal>
+      <Dependent Role="Fotos_Marker">
+        <PropertyRef Name="id_marker" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="IniredAdrianEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Comentarios" EntityType="Self.Comentarios" />
+    <EntitySet Name="Fotos_Marker" EntityType="Self.Fotos_Marker" />
+    <EntitySet Name="Marker" EntityType="Self.Marker" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+    <AssociationSet Name="FK_Comentarios_Marker" Association="Self.FK_Comentarios_Marker">
+      <End Role="Marker" EntitySet="Marker" />
+      <End Role="Comentarios" EntitySet="Comentarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comentarios_Usuario" Association="Self.FK_Comentarios_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Comentarios" EntitySet="Comentarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Fotos_Marker_Marker" Association="Self.FK_Fotos_Marker_Marker">
+      <End Role="Marker" EntitySet="Marker" />
+      <End Role="Fotos_Marker" EntitySet="Fotos_Marker" />
+    </AssociationSet>
+    <EntitySet Name="Images" EntityType="IniredAdrianModel.Images" />
+    <EntitySet Name="Coments" EntityType="IniredAdrianModel.Coments" />
+  </EntityContainer>
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="nombre_marker" />
+    </Key>
+    <Property Name="nombre_marker" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="imagen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Coments">
+    <Key>
+      <PropertyRef Name="comentario" />
+    </Key>
+    <Property Name="comentario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="id_user" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="nombreMarker" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

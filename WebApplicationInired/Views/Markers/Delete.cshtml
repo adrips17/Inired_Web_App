@@ -1,0 +1,95 @@
+﻿@model WebApplicationInired.Models.Marker
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<u style="font-size:40px">ELIMINAR</u>
+
+<h3>Estás seguro de que deseas elimnar esta ubicación? ?</h3>
+<div>
+    <h4>Marker</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @*@Html.DisplayNameFor(model => model.nombre)*@
+            NOMBRE
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.lat)*@
+            LATITUD
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lat)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.lon)*@
+            LONGITUD
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lon)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.ubicacion)*@
+            UBICACIÓN
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ubicacion)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.descripcion)*@
+            DESCRIPCIÓN
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.nota)*@
+            NOTA
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nota)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.comentarios_marker)*@
+            COMENTARIO
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comentarios_marker)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.fotos_marker)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fotos_marker)
+        </dd>*@
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Volver", "Principal")
+        </div>
+    }
+</div>

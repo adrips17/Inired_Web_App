@@ -1,0 +1,203 @@
+﻿@model WebApplicationInired.Models.Marker
+
+@{
+    ViewBag.Title = "CreateMarker";
+}
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUxQHdn8Mx2qw3TGwlwCGotvo35b3HDBg&callback=initMap"
+        async defer></script>
+<script src="~/Scripts/JavaScript.js"></script>
+
+
+<h2 style="color:#fff">Create Marker</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4 style="color:#fff">Marker</h4>
+        <hr />
+        <div class="form-group" style="margin-left:10px">
+            <div class="form-group">
+                <p class="control-label col-md-2" style="color:#fff">NOMBRE</p>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="nombreMarker" placeholder="NOMBRE">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <p class="control-label col-md-2" style="color:#fff">UBICACIÓN</p>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="ubicacionMarker" placeholder="UBICACION">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <p class="control-label col-md-2" style="color:#fff">DESCRIPCIÓN</p>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="descripcionMarker" placeholder="DESCRIPCION">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <p class="control-label col-md-2" style="color:#fff">NOTA</p>
+                <div class="col-md-10">
+                    <input type="number" class="form-control" id="notaMarker" placeholder="NOTA">
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                <p class="control-label col-md-2" style="color:#fff">COMENTARIO</p>
+                <div class="col-md-10" style="margin-bottom: 27px">
+                    <input type="text" class="form-control" id="comentarioMarker" placeholder="COMENTARIO">
+                </div>
+            </div>*@
+
+            @*<div class="form-group">
+                <input type="file" id="UploadInput" />
+                <br />
+                <div id="UploadPath"></div>
+            </div>*@
+        </div>
+
+       
+
+
+        <br />
+        <div style="margin-left:10px">
+            <div id="map"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" id="btnCrearUbi" onclick="enviarUbi()" class="btn btn-primary" style="margin-top:10px">Enviar</button>
+            </div>
+        </div>
+
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("Volver", "Principal")
+        </div>
+
+    </div>
+}
+
+
+<style>
+    #map {
+        height: 400px;
+        width: 80%;
+    }
+</style>
+
+
+<script>
+    //$('document').ready(function () {
+
+    //var lat;
+    //var lon;
+    //var path;
+    //var url;
+
+    //  function initMap() {
+    //    var map = new google.maps.Map(document.getElementById('map'), {
+    //      zoom: 14,
+    //      center: { lat: 39.4561165, lng: -0.3545661 }
+    //    });
+
+    //    map.addListener('click', function(e) {
+    //        placeMarkerAndPanTo(e.latLng, map);
+    //        lat = e.latLng.lat();
+    //        lon = e.latLng.lng();
+    //    });
+    //  }
+    //});
+    //  function placeMarkerAndPanTo(latLng, map) {
+    //    var marker = new google.maps.Marker({
+    //      position: latLng,
+    //      map: map
+    //    });
+    //    map.panTo(latLng);
+    //  }
+
+    //  $("#btnCrearUbi").click(function () {
+
+    //      //Datos del usuario
+    //      var nombre = $('#nombreMarker').val();
+    //      var ubicacion = $('#ubicacionMarker').val();
+    //      var nota = $('#notaMarker').val();
+    //      var comentario = $('#comentarioMarker').val();
+    //      var descripcion = $('#descripcionMarker').val();
+
+
+
+    //      $.ajax({
+    //          type: "POST",
+    //          url: "/Markers/CrearNuevoMarker",
+    //          data: {
+    //              nombreRecibido: nombre,
+    //              ubicacionRecibida: ubicacion,
+    //              notaRecibida: nota,
+    //              comentarioRecibido: comentario,
+    //              descripcionRecibida: descripcion,
+    //              latRecibida: lat,
+    //              lonRecibida: lon,
+
+
+    //          },
+    //          success: function (data) {
+    //              var nombre = $('#nombreMarker').val();
+                     
+    //              var pathImagen = path;
+                          
+    //              $.ajax({
+    //                  type: "POST",
+    //                  url: "/Images/ImagenesMarkers",
+    //                  data: {
+    //                      pathRecibido: pathImagen,
+    //                      //markerRecibido: id_marker,
+    //                      nombreRecibido: nombre,
+
+    //                  },
+    //                  success: function (data) {
+                            
+    //                  }
+    //              })
+    //              alert('Registrada!')
+    //          }
+          
+    //      })
+    //  });
+
+      
+
+    //  function readURL(input) {
+    //      if (input.files && input.files[0]) {
+    //          var reader = new FileReader();
+
+    //          reader.onload = function (e) {
+    //              $('[data-label="UploadImage"]').children('img').attr('src', e.target.result);
+
+    //          }
+
+
+    //          reader.readAsDataURL(input.files[0]);
+    //      }
+    //  }
+
+    //  $('#UploadInput').change(function () {
+    //      readURL(this);
+
+    //      url = this.value;
+    //      url = url.split("\\");
+    //      path = url[2];
+    //      $("#UploadPath").text(path);
+    //  });
+</script>
+
+

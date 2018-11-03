@@ -1,0 +1,298 @@
+﻿<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<style>
+    body {
+    padding-top: 120px;
+    padding-bottom: 40px;
+    background-color: #eee;
+  
+  }
+  .btn 
+  {
+   outline:0;
+   border:none;
+   border-top:none;
+   border-bottom:none;
+   border-left:none;
+   border-right:none;
+   box-shadow:inset 2px -3px rgba(0,0,0,0.15);
+  }
+ 
+  
+
+  .form-signin {
+    max-width: 280px;
+    padding: 15px;
+    margin: 0 auto;
+      margin-top:50px;
+  }
+  .form-signin .form-signin-heading, .form-signin {
+    margin-bottom: 10px;
+  }
+  .form-signin .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+  .form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: none;
+    border-left-style: solid;
+    border-color: #000;
+  }
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top-style: none;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-color: rgb(0,0,0);
+    border-top:1px solid rgba(0,0,0,0.08);
+  }
+  .form-signin-heading {
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 2px 2px rgba(0,0,0,0.5);
+  }
+
+
+  #imagenMarker {
+          height: 46px;
+    margin-top: 5px;
+  }
+
+  #separator {
+            border-top:2px solid #428bca;
+            border-bottom: 2px solid #428bca;
+            border-left:none;
+            border-right:none;
+            height: 6px;
+            
+            }
+
+
+</style>
+
+    <div class="container" style="margin-top:-65px">
+        <h2 class="form-signin-heading text-muted" style="font-family:fantasy; margin-top:20px">
+            APLICACIÓN MARKERS
+        </h2>
+        <br />
+        <form class="form-signin-heading" style="align-content:center">
+            <input type="image" src="~/Images/markerorjo.jpg" id="imagenMarker" />
+        </form>
+        <form class="form-signin">
+            <h1 class="form-signin-heading text-muted" style="font-family:fantasy">
+                Log in
+                <br />
+            </h1>
+            <hr id="separator" />
+            <input type="text" class="form-control" placeholder="Email address" required="" autofocus="">
+            <input type="password" class="form-control" placeholder="Password" required="">
+            <button class="btn btn-lg btn-primary btn-block" type="button" id="btnEntrar">
+                Entrar
+            </button>
+            <button class="btn-link" type="button" style="color:#eeeeee" id="btnOlvidaPassword">
+                Olvidaste la contraseña?
+            </button>
+            <button class="btn btn-lg btn-primary btn-block" type="button" id="btnNuevoUsuario">
+                Registrar
+            </button>
+        </form>
+    </div>
+
+@* MODAL DE REGISTRO *@
+<div class="modal fade" id="modalRegistro" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>REGISTRO DE USUARIOS</h3>
+            </div>
+            <div class="modal-body">
+                <h4>DATOS</h4>
+                <div class="form-group">
+                    <label for="usuario">USUARIO</label>
+                    <input type="text" class="form-control" id="usuario" placeholder="USER">
+                </div>
+                <div class="form-group">
+                    <label for="password_user">CONTRASEÑA</label>
+                    <input type="password" class="form-control" id="password_user" placeholder="CONTRASEÑA">
+                </div>
+                <div class="form-group">
+                    <label for="nombre_user">NOMBRE</label>
+                    <input type="text" class="form-control" id="nombre_user" placeholder="NOMBRE">
+                </div>
+                <div class="form-group">
+                    <label for="apellidos_user">APELLIDOS</label>
+                    <input type="text" class="form-control" id="apellidos_user" placeholder="APELLIDOS">
+                </div>
+                <div class="form-group">
+                    <label for="correo_user">CORREO</label>
+                    <input type="text" class="form-control" id="correo_user" placeholder="CORREO">
+                </div>
+                <div class="form-group">
+                    <label for="fecha_nacimiento">FECHA NACIMIENTO</label>
+                    <input type="date" class="form-control" id="fecha_nacimiento" placeholder="FECHA NACIMIENTO">
+                </div>
+                <div class="form-group">
+                    <p> Sexo </p>
+                    <div class="radio">
+                        <label><input type="radio" id="radio_mujer" name="radio_mujer">MUJER</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" id="radio_hombre" name="radio_hombre">HOMBRE</label>
+                    </div>
+                    <div>
+                        @*<label class="btn btn-default">
+                                Imagen <input type="file" id="imagen_user">
+                            </label>*@
+                        <input type="file" name="upload"><br /><br />
+                        <span></span><br /><br />
+                        <img width="200" alt="Imagen" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
+                <button type="button" id="btnRegistrar" class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* MODAL DE RESET PASSWORD *@
+<div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>RECUPERACIÓN DE CONTRASEÑA</h3>
+            </div>
+            <div class="modal-body">
+                <h4>DATOS</h4>
+                <div class="form-group">
+                    <label for="correo_recuperacion">CORREO</label>
+                    <input type="text" class="form-control" id="correo_recuperacion" placeholder="CORREO">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
+                <button type="button" id="btnRecuperarPassword" class="btn btn-primary">Recuperar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+    //Abre modal de registro
+    $("#btnNuevoUsuario").click(function () {
+
+        $(document).ready(function () {
+            $("#modalRegistro").modal("show");
+        });
+    });
+
+    //Registra usuario
+    $("#btnRegistrar").click(function () {
+
+        //Datos del usuario
+        var usuario = $('#usuario').val();
+        var correo = $('#correo_user').val();
+        var contraseña = $('#password_user').val();
+        var nombre = $("#nombre_user").val();
+        var apellidos = $("#apellidos_user").val();
+        var fecha_nacimiento = $("#fecha_nacimiento").val();
+        if (radio_hombre.checked) {
+            var sexo = "Hombre";
+        } else if (radio_mujer.checked) {
+            var sexo = "Mujer";
+        }
+        var ruta;
+        //FALTA iMAGEN
+        $(document).ready(function () {
+
+            // Escuchamos el evento 'change' del input donde cargamos el archivo
+            $(document).on('change', 'input[type=file]', function (e) {
+                // Obtenemos la ruta temporal mediante el evento
+                var TmpPath = URL.createObjectURL(e.target.files[0]);
+                // Mostramos la ruta temporal
+                //$('span').html(TmpPath);
+                 ruta = html(TmpPath);
+                $('img').attr('src', TmpPath);
+            });
+
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/RegistrarUsuarios",
+            data: {
+                usuarioRecibido: usuario,
+                nombreRecibido: nombre,
+                apellidosRecibidos: apellidos,
+                correoRecibido: correo,
+                contraseñaRecibida: contraseña,
+                fecha_nacimientoRecibida: fecha_nacimiento,
+                sexoRecibido: sexo,
+                rutaRecibida: ruta,
+            },
+            success: function (data) {
+                //location.href = "http://localhost:50381/";
+                alert("Registrado!");
+                $(document).ready(function () {
+                    $("#modalRegistro").modal("hide");
+                });
+            }
+        })
+    });
+
+    //Abre modal recuperar contraseña
+    $("#btnOlvidaPassword").click(function () {
+
+        $(document).ready(function () {
+            $("#modalPassword").modal("show");
+        });
+    });
+
+    //Botón recuperar contraseña
+    $("#btnRecuperarPassword").click(function () {
+
+        //Correo del usuario
+
+        var correoRecuperacion = $('#correo_recuperacion').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/EnviarCorreoConContraseña",
+            data: {
+                correoRecuperacionRecibido: correoRecuperacion,
+            },
+            success: function (data) {
+                //location.href = "http://localhost:50381/";
+                alert("Enviado!");
+                $(document).ready(function () {
+                    $("#modalPassword").modal("hide");
+                });
+            }
+        })
+    });
+
+
+
+</script>

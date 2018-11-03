@@ -1,0 +1,19 @@
+﻿html, body { 
+  height:100%; 
+  margin:0;
+  padding:0;
+}
+
+.contenedor {
+  display:flex;
+  flex-direction: column;
+  min-height:100%;
+}
+
+.contenedor > div {
+  flex:2;
+  display:flex;
+}
+
+.fila0 { background:rgba(0,0,0,0.3); }
+.fila1 { background:rgba(255,0,0,0.3); }

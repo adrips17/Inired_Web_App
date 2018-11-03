@@ -1,0 +1,356 @@
+﻿<script src="~/Scripts/JavaScriptPrincipal.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUxQHdn8Mx2qw3TGwlwCGotvo35b3HDBg&callback=initMap"
+        async defer></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    #map {
+        height: 500px;
+    }
+
+    .body {
+        font-family: monospace, sans-serif;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #d94040;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #ffffff;
+            display: block;
+            transition: 0.3s;
+        }
+
+            .sidenav a:hover {
+                color: #f1f1f1;
+            }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+    #titulo {
+        color: #f1f1f1 !important;
+        font-family: monospace;
+        font-size: 40px;
+    }
+
+    #span {
+        color: #f1f1f1 !important;
+    }
+</style>
+<html>
+<body>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="#" onclick="openModalInfo()" id="iconInfo" style="margin-left:159px"><i class="glyphicon glyphicon-info-sign"></i></a>
+        <a id="nombre_user" href="#"></a>
+        <hr />
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a id="side_perfil" onclick="goToProfile()" href="#">Perfil</a>
+        <a href="http://localhost:55618/Markers/CreateMarker">Añadir Ubicación</a>
+        <a href="http://localhost:55618/Home/Index">Log out</a>
+        <a href="http://localhost:55618/Coments/Index">Comentarios</a>
+    </div>
+
+    <span id="span" style="font-size:30px;cursor:pointer;margin-left: 13px;" onclick="openNav()">&#9776;</span><u id="titulo" style="margin-left:10px">MARKERS</u>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="map"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="panel panel-default" style="margin-top:10px">
+                        <div class="panel-heading">
+                            <select class="form-control" style="margin-bottom:10px" id="selectedValue" onchange="GoLocation(this.value)">
+
+                                <option>--LUGARES DISPONIBLES--</option>
+                                @foreach (var item in ViewBag.lugares)
+                                {
+                                    <option value=@item.id_marker>@item.nombre</option>
+
+                                }
+
+                            </select>
+                        </div>
+                        <div class="panel-body">
+                            <u style="font-size:14px; font-family:monospace" id="nombre"></u>
+                            <p id="nombreMarker"></p>
+                            <br />
+                            <u style="font-size:14px; font-family:monospace" id="ubi"></u>
+                            <p id="ubicacionMarker"></p>
+                            <br />
+                            <u style="font-size:14px; font-family:monospace" id="nota"></u>
+                            <p id="notaMarker"></p>
+
+
+                            <button class="btn btn-link" id="btnEditarMarker">Editar Datos</button>
+                            <button class="btn btn-link" id="btnEliminarMarker">Eliminar Ubicación</button>
+                            <button class="btn btn-link" id="btnNuevoComentario" onclick="btnNuevoComentario()">Añadir Comentario</button>
+                            <button class="btn btn-link" id="btnVerComentarios" onclick="verComentarios()">Ver Comentarios</button>
+
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row">
+                    <div class="panel panel-default" style="margin-top:10px">
+                        <div class="panel-heading">
+                            IMÁGENES
+                        </div>
+                        <div class="panel-body">
+                            @*<img id="imagen" width="200" height="100" style="margin-left:140px" />
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+    </div>
+
+    @* MODAL AÑADIR COMENTARIO *@
+    <div class="modal fade" id="modalComentario" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>AÑADIR COMENTARIO</h3>
+                </div>
+                <div class="modal-body">
+                    <h4>DATOS</h4>
+                    <div class="form-group">
+                        <label for="coment_ubicacion">COMENTARIO</label>
+                        <br />
+                        <input type="text" class="form-control" id="comentario_ubicacion" placeholder="COMENTARIO">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
+                    <button type="button" id="btnEnviarComentario" onclick="btnEnviarComentario()" class="btn btn-primary">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* MODAL INFORMACIÓN *@
+    <div class="modal fade" id="modalInformacion" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>INFORMACIÓN APP</h3>
+                </div>
+                <div class="modal-body">
+                    <h4>MARKERS</h4>
+                    <div class="form-group">
+                        <label for="correo_app">CORREO:</label>
+                        <br />
+                        <label for="correo_app">adri9ps@gmail.com</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="tlf_app">TELÉFONO:</label>
+                        <br />
+                        <label for="tlf_app">699448704</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="ubi_app">UBICACIÓN:</label>
+                        <br />
+                        <label for="ubi_app">Valencia</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* MODAL COMENTARIOS POR MARKER *@
+    <div class="modal fade" id="modalComentarioPorMarker" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>COMENTARIOS</h3>
+                </div>
+                <div class="modal-body" id="body_card">
+                    @*<h4 id="titulo_marker"></h4>
+                    <div class="form-group">
+                        <div class="card" style="background-color:#c74a4a">
+                            <div class="container" style="margin-bottom:10px">
+                                <h4 style="color:#fff" id="titulo_coment"><b></b></h4>
+                                <p style="color:#fff" id="coment_coment"></p>
+                                <p style="color:#fff" id="user_coment"></p>
+                            </div>
+                        </div>                        
+                    </div>*@
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    var listaComents;
+    function recibirImagenes() {
+
+        var loc = $('#selectedValue').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Markers/GetAllImages",
+            data: {
+                id: loc,
+            },
+            success: function (data) {
+
+                images = data;
+
+                $("#imagen").attr("src", '~/Images/medu.jpg');
+            }
+        })
+    }
+
+    $("#btnEditarMarker").click(function () {
+        if (locat != null) {
+            window.location = "http://localhost:55618/Markers/Edit/" + locat + "";
+        } else {
+            alert('Primero debes seleccionar una ubicación')
+        }
+    });
+
+    $("#btnEliminarMarker").click(function () {
+        if (locat != null) {
+            window.location = "http://localhost:55618/Markers/Delete/" + locat + "";
+        } else {
+            alert('Primero debes seleccionar una ubicación')
+        }
+    });
+
+    //SIDENAV
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function goToProfile() {
+
+
+        var us = '@Session["user"]';
+        window.location = "http://localhost:55618/Usuarios/Edit/" + us + "";
+
+    }
+
+    function openModalInfo() {
+
+        //Abre modal info app
+        $(document).ready(function () {
+            $("#modalInformacion").modal("show");
+        });
+    }
+    var nomUs = '@Session["nombre"]';
+    var apeUs = '@Session["apellidos"]';
+    document.getElementById("nombre_user").innerHTML = "" + nomUs + " " + apeUs + "";
+
+
+    //MODAL COMENTARIOS
+    $("#btnNuevoComentario").click(function () {
+        if (locat != null) {
+            $(document).ready(function () {
+                $("#modalComentario").modal("show");
+            });
+        } else {
+            alert('Primero debes seleccionar una ubicación')
+        }
+    });
+
+    $("#btnEnviarComentario").click(function () {
+        var nombreMarkerr = nombreMarker;
+        var comentario = $('#comentario_ubicacion').val();
+        var usuLogueado = '@Session["usuarioUsu"]';
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Coments/EnviarComentario",
+            data: {
+                nombreMarkerRecibido: nombreMarkerr,
+                comentarioRecibido: comentario,
+                usuarioRecibido: usuLogueado,
+            },
+            success: function (data) {
+                alert("Enviado!");
+                $(document).ready(function () {
+                    $("#modalComentario").modal("hide");
+                });
+            }
+        })
+    });
+
+    $("#btnVerComentarios").click(function () {
+        var nomMark = nombreMarker;
+        $.ajax({
+            type: "POST",
+            url: "/Coments/ComentariosPorMarker",
+            data: {
+                nombreRecibido: nomMark,
+            },
+            success: function (listaComentarios) {
+
+                $(document).ready(function () {
+                    listaComents = listaComentarios;
+                    var i;
+                    var text = "";
+                    var no_text = " No hay comentarios";
+                    if (listaComents.length != 0) {
+                        for (i = 0; i < listaComents.length; i++) {
+                            text = text + "<div class='form-group'><div class='card' style='background-color:#c74a4a'><div class='container' style='margin-bottom:10px'>" +
+                       "<h4 style='color:#fff'><b>" + listaComents[i] + "</b></h4></div></div></div>"
+
+                        }
+                        document.getElementById("body_card").innerHTML = "" + text + "";
+                    } else {
+
+                        document.getElementById("body_card").innerHTML = "" + no_text + "";
+                    }
+                    $("#modalComentarioPorMarker").modal("show");
+
+                });
+
+            }
+        })
+    });
+
+</script>
+
+
+

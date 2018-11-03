@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IniredAdrianModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Comentarios">
+    <Key>
+      <PropertyRef Name="comentario" />
+    </Key>
+    <Property Name="comentario" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="id_user" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="id_marker" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Coments">
+    <Key>
+      <PropertyRef Name="comentario" />
+    </Key>
+    <Property Name="comentario" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="id_user" Type="varchar" MaxLength="50" />
+    <Property Name="nombreMarker" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Fotos_Marker">
+    <Key>
+      <PropertyRef Name="imagen" />
+    </Key>
+    <Property Name="imagen" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="id_marker" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="nombre_marker" />
+    </Key>
+    <Property Name="nombre_marker" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="imagen" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Marker">
+    <Key>
+      <PropertyRef Name="id_marker" />
+    </Key>
+    <Property Name="id_marker" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" />
+    <Property Name="lat" Type="float" />
+    <Property Name="lon" Type="float" />
+    <Property Name="ubicacion" Type="varchar" MaxLength="50" />
+    <Property Name="descripcion" Type="varchar" MaxLength="50" />
+    <Property Name="nota" Type="float" />
+    <Property Name="comentarios_marker" Type="varchar" MaxLength="50" />
+    <Property Name="fotos_marker" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="usuario" />
+    </Key>
+    <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" />
+    <Property Name="apellidos" Type="varchar" MaxLength="50" />
+    <Property Name="fecha_nacimiento" Type="datetime" />
+    <Property Name="sexo" Type="varchar" MaxLength="50" />
+    <Property Name="foto_usuario" Type="varchar" MaxLength="50" />
+    <Property Name="correo" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Comentarios_Marker">
+    <End Role="Marker" Type="Self.Marker" Multiplicity="1" />
+    <End Role="Comentarios" Type="Self.Comentarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marker">
+        <PropertyRef Name="id_marker" />
+      </Principal>
+      <Dependent Role="Comentarios">
+        <PropertyRef Name="id_marker" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comentarios_Usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Comentarios" Type="Self.Comentarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="Comentarios">
+        <PropertyRef Name="id_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Fotos_Marker_Marker">
+    <End Role="Marker" Type="Self.Marker" Multiplicity="1" />
+    <End Role="Fotos_Marker" Type="Self.Fotos_Marker" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marker">
+        <PropertyRef Name="id_marker" />
+      </Principal>
+      <Dependent Role="Fotos_Marker">
+        <PropertyRef Name="id_marker" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="IniredAdrianModelStoreContainer">
+    <EntitySet Name="Comentarios" EntityType="Self.Comentarios" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Coments" EntityType="Self.Coments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Fotos_Marker" EntityType="Self.Fotos_Marker" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Marker" EntityType="Self.Marker" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Comentarios_Marker" Association="Self.FK_Comentarios_Marker">
+      <End Role="Marker" EntitySet="Marker" />
+      <End Role="Comentarios" EntitySet="Comentarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comentarios_Usuario" Association="Self.FK_Comentarios_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Comentarios" EntitySet="Comentarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Fotos_Marker_Marker" Association="Self.FK_Fotos_Marker_Marker">
+      <End Role="Marker" EntitySet="Marker" />
+      <End Role="Fotos_Marker" EntitySet="Fotos_Marker" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
