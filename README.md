@@ -5,6 +5,7 @@ Web application for Inired company (Aguas de valencia) where I was doing interns
 I have use to do the web:
  - Html
  - CSS
+ - C#
  - Javascript
  - JQuery
  - Bootstrap
